@@ -77,16 +77,20 @@ function addMarker(map) {
             url: "{% url 'search_pois'%}",
             data: {'lat': lat, 'lng': lng},
             success: function (data) {
-              var p = data["pois"];
-                console.log(p);
+              var pois= JSON.parse(data);
+              var i;
+              for (i = 0; i < pois.length; i++) {
+                poi_name = pois[i]['name'];
+                var poiMarker = new H.map.Marker({lat:41.397158, lng:-2.160873},);
+                map.addObject(poiMarker);
+      }
             },
             error: function (data) {
-              console.log("it didn't work");
+              console.log("Error");
             }
         });
     });
-  var madridMarker = new H.map.Marker({lat:lat, lng:-lng});
-    map.addObject(madridMarker);
+
 }
 
 /**
@@ -96,7 +100,7 @@ function addMarker(map) {
 // initialize communication with the platform
 // Initialize the platform object:
 var platform = new H.service.Platform({
-'apikey': 'API_KEY'
+'apikey': ''
 });
 var defaultLayers = platform.createDefaultLayers();
 

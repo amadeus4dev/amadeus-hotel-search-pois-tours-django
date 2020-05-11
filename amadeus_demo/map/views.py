@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from amadeus import Client, ResponseError, Location
 from .hotel import Hotel
+from .point_of_interest import PointOfInterest
 import json
 from django.contrib import messages
 from django.http import HttpResponse
@@ -11,7 +12,6 @@ amadeus = Client()
 
 def hotels_map(request):
     hotels = search_hotels('BCN')
-    print(hotels)
     return render(request, 'map/map.html', {'hotels': json.dumps(hotels)})
 
 
@@ -31,7 +31,11 @@ def safety(lat, lng):
 def search_pois(request):
     if request.is_ajax():
         try:
-            pois = amadeus.reference_data.locations.points_of_interest.get(latitude=41.397158, longitude=2.160873).data
+            pois = amadeus.reference_data.locations.points_of_interest.get(latitude=41.397158, longitude=2.160873)
+            points_of_interest = []
+            for p in pois.data:
+                poi = PointOfInterest(p).construct_poi()
+                points_of_interest.append(poi)
         except ResponseError as error:
             messages.add_message(request, messages.ERROR, error)
-    return HttpResponse({'pois': json.dumps(pois)})
+    return HttpResponse(json.dumps(points_of_interest))
