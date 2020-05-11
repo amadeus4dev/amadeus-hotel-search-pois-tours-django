@@ -1,0 +1,129 @@
+{% load static %}
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <title>Amadeus Hotels</title>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'map/style.css' %}">
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+  </head>
+  <body id="markers-on-the-map">
+    <div class="page-header">
+        <h1>Click on a hotel to find more info about the area</h1>
+        <p>Click on a hotel to find more info about the area</p>
+    </div>
+    <p>This example displays a map with hotels in the markers positions.
+      Click on a hotel to see the POIs and safey information.</p>
+    <div id="map"></div>
+    <script>
+      /**
+ * Creates a new marker and adds it to a group
+ * @param {H.map.Group} group       The group holding the new marker
+ * @param {H.geo.Point} coordinate  The location of the marker
+ * @param {String} html             Data associated with the marker
+ */
+function addMarkerToGroup(group, coordinate, html) {
+  var marker = new H.map.Marker(coordinate);
+  // add custom data to the marker
+  marker.setData(html);
+  group.addObject(marker);
+}
+
+/**
+ * Clicking on a marker opens an infobubble which holds HTML content related to the marker.
+ * @param  {H.Map} map      A HERE Map instance within the application
+ */
+function addInfoBubble(map) {
+  var group = new H.map.Group();
+
+  map.addObject(group);
+
+  // add 'tap' event listener, that opens info bubble, to the group
+  group.addEventListener('tap', function (evt) {
+    // event target is the marker itself, group is a parent event target
+    // for all objects that it contains
+    var bubble =  new H.ui.InfoBubble(evt.target.getGeometry(), {
+      // read custom data
+      content: evt.target.getData()
+    });
+    // show info bubble
+    ui.addBubble(bubble);
+    addMarker(map, lat, lng);
+  }, false);
+
+var hotels = JSON.parse("{{ hotels|escapejs }}");
+      var i;
+      for (i = 0; i < hotels.length; i++) {
+        hotel_name = hotels[i]['name'];
+        lat = hotels[i]['latitude'];
+        lng = hotels[i]['longitude'];
+        addMarkerToGroup(group, {lat:lat, lng:lng},
+        '<div>' + hotel_name + '</div>' +'<div>' + lat + '</div>' + '<div>' + lng + '</div>'
+        );
+      }
+}
+
+function addMarker(map) {
+  $(document).ready(function() {
+    $.ajax({
+            method: 'POST',
+            url: "{% url 'search_pois'%}",
+            data: {'lat': lat, 'lng': lng},
+            success: function (data) {
+              var p = data["pois"];
+                console.log(p);
+            },
+            error: function (data) {
+              console.log("it didn't work");
+            }
+        });
+    });
+  var madridMarker = new H.map.Marker({lat:lat, lng:-lng});
+    map.addObject(madridMarker);
+}
+
+/**
+ * Boilerplate map initialization code starts below:
+ */
+
+// initialize communication with the platform
+// Initialize the platform object:
+var platform = new H.service.Platform({
+'apikey': 'API_KEY'
+});
+var defaultLayers = platform.createDefaultLayers();
+
+// initialize a map - this map is centered over Europe
+var map = new H.Map(document.getElementById('map'),
+  defaultLayers.vector.normal.map,{
+  center: {lat: 41.3851, lng: 2.1734},
+  zoom: 7,
+  pixelRatio: window.devicePixelRatio || 1
+});
+// add a resize listener to make sure that the map occupies the whole container
+window.addEventListener('resize', () => map.getViewPort().resize());
+
+// MapEvents enables the event system
+// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+// create default UI with layers provided by the platform
+var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+// Now use the map as required...
+addInfoBubble(map);
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  </body>
+</html>
