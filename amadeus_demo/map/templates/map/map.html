@@ -67,8 +67,9 @@ var hotels = JSON.parse("{{ hotels|escapejs }}");
         hotel_name = hotels[i]['name'];
         hotel_lat = hotels[i]['latitude'];
         hotel_lng = hotels[i]['longitude'];
+        hotel_address = hotels[i]['address'];
         addMarkerToGroup(group, {lat:hotel_lat, lng:hotel_lng},
-        '<div>' + hotel_name + '</div>' +'<div>' + hotel_lat + '</div>' + '<div>' + hotel_lng + '</div>'
+        '<div>' + hotel_name + '</div>' +'<div>' + hotel_address + '</div>'
         );
       } 
 }
