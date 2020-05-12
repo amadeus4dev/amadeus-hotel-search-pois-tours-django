@@ -30,7 +30,10 @@
  * @param {String} html             Data associated with the marker
  */
 function addMarkerToGroup(group, coordinate, html) {
-  var marker = new H.map.Marker(coordinate);
+  var customIcon = new H.map.Icon("{% static 'icons/hotel.svg' %}", {size: {w: 32, h: 32}});
+  var marker = new H.map.Marker(coordinate, {
+                    icon: customIcon
+                  });
   // add custom data to the marker
   marker.setData(html);
   group.addObject(marker);
@@ -55,38 +58,70 @@ function addInfoBubble(map) {
     });
     // show info bubble
     ui.addBubble(bubble);
-    addMarker(map, lat, lng);
+    addPOIMarker(map, hotel_lat, hotel_lng);
   }, false);
 
 var hotels = JSON.parse("{{ hotels|escapejs }}");
       var i;
       for (i = 0; i < hotels.length; i++) {
         hotel_name = hotels[i]['name'];
-        lat = hotels[i]['latitude'];
-        lng = hotels[i]['longitude'];
-        addMarkerToGroup(group, {lat:lat, lng:lng},
-        '<div>' + hotel_name + '</div>' +'<div>' + lat + '</div>' + '<div>' + lng + '</div>'
+        hotel_lat = hotels[i]['latitude'];
+        hotel_lng = hotels[i]['longitude'];
+        addMarkerToGroup(group, {lat:hotel_lat, lng:hotel_lng},
+        '<div>' + hotel_name + '</div>' +'<div>' + hotel_lat + '</div>' + '<div>' + hotel_lng + '</div>'
         );
-      }
+      } 
 }
 
-function addMarker(map) {
-  $(document).ready(function() {
-    $.ajax({
+function addPOIMarker(map) {
+    $(document).ready(function() {
+        $.ajax({
             method: 'POST',
             url: "{% url 'search_pois'%}",
-            data: {'lat': lat, 'lng': lng},
-            success: function (data) {
-              var pois= JSON.parse(data);
-              var i;
-              for (i = 0; i < pois.length; i++) {
-                poi_name = pois[i]['name'];
-                var poiMarker = new H.map.Marker({lat:41.397158, lng:-2.160873},);
-                map.addObject(poiMarker);
-      }
+            data: {
+                'lat': hotel_lat,
+                'lng': hotel_lng
             },
-            error: function (data) {
-              console.log("Error");
+            success: function(data) {
+                var pois = JSON.parse(data);
+                var i;
+                for (i = 0; i < pois.length; i++) {
+                    poi_name = pois[i]['name'];
+                    poi_lat = pois[i]['lat'];
+                    poi_lng = pois[i]['lng'];
+                    poi_category = pois[i]['category'];
+                    console.log(poi_category);
+                    if (poi_category == 'NIGHTLIFE') {
+                        var customIcon = new H.map.Icon("{% static 'icons/nightlife.svg' %}", {size: {w: 32, h: 32}});
+                      } else if(poi_category == 'SIGHTS') {
+                        var customIcon = new H.map.Icon("{% static 'icons/sights.svg' %}", {size: {w: 32, h: 32}});
+                      } else if(poi_category == 'RESTAURANT') {
+                        var customIcon = new H.map.Icon("{% static 'icons/restaurants.svg' %}", {size: {w: 32, h: 32}});
+                      } else if(poi_category == 'SHOPPING') {
+                        var customIcon = new H.map.Icon("{% static 'icons/shopping.svg' %}", {size: {w: 32, h: 32}});
+                      } else {
+                        var customIcon = new H.map.Icon("{% static 'icons/shopping.svg' %}", {size: {w: 32, h: 32}});
+                    }
+                    var poiMarker = new H.map.Marker({
+                    lat: poi_lat,
+                    lng: poi_lng
+                    }, {
+                    icon: customIcon
+                  });
+                    poiMarker.setData('<div>' + poi_name + '</div>');
+                    poiMarker.addEventListener('tap', event => {
+                    var poiBubble = new H.ui.InfoBubble(event.target.getGeometry(), {
+                        content: event.target.getData()
+                    });
+                    ui.addBubble(poiBubble)
+                    
+                }, false);
+                map.addObject(poiMarker);
+
+                }
+            },
+            error: function(data) {
+                console.log("Points of Interest - Error");
             }
         });
     });
@@ -108,7 +143,7 @@ var defaultLayers = platform.createDefaultLayers();
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.vector.normal.map,{
   center: {lat: 41.3851, lng: 2.1734},
-  zoom: 7,
+  zoom: 13,
   pixelRatio: window.devicePixelRatio || 1
 });
 // add a resize listener to make sure that the map occupies the whole container

@@ -31,7 +31,9 @@ def safety(lat, lng):
 def search_pois(request):
     if request.is_ajax():
         try:
-            pois = amadeus.reference_data.locations.points_of_interest.get(latitude=41.397158, longitude=2.160873)
+            pois = amadeus.reference_data.locations.points_of_interest.get(
+                latitude=request.POST.get('lat'), 
+                longitude=request.POST.get('lng'))
             points_of_interest = []
             for p in pois.data:
                 poi = PointOfInterest(p).construct_poi()
