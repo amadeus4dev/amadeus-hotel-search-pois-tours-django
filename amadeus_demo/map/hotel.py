@@ -1,3 +1,6 @@
+import requests
+import json
+
 class Hotel:
     def __init__(self, hotel):
         self.hotel = hotel
@@ -13,6 +16,25 @@ class Hotel:
             offer['distance'] = self.hotel['hotel']['hotelDistance']['distance']
             offer['description'] = self.hotel['hotel']['description']['text']
             offer['address'] = self.hotel['hotel']['address']['lines']
+            offer['safety'] = self.safety(offer['latitude'], offer['longitude'])
+                   
         except (TypeError, AttributeError, KeyError):
             pass
         return offer
+    
+    def safety(self, lat, lng):
+        access_token = ''
+        geosure_endpoint = ''
+        parameters = {"latitude":lat,
+                    "longitude": lng,
+                    "access_token": access_token
+                    }
+
+        safety = requests.get(url= geosure_endpoint,
+                            params=parameters).json() 
+        overall = safety['data'][0]['safetyScores']['overall']    
+        lgbtq   = safety['data'][0]['safetyScores']['lgbtq']   
+        theft   = safety['data'][0]['safetyScores']['theft']     
+        medical = safety['data'][0]['safetyScores']['medical']                           
+        return f'overall safety: {overall}\nlgbtq: {lgbtq}\ntheft: {theft}\nmedical: {medical}'
+        
