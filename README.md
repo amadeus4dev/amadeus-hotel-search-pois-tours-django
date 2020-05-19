@@ -1,14 +1,54 @@
-This project demonstrates how to integrate Amadeus APIs using the [Python SDK](https://github.com/amadeus4dev/amadeus-python) in a Django application.
+In this prototype we demonstrate the safety information and POIs for a chosen hotel on the map, using:
+- Hotel Search: shows hotels on the map
+- Geosure API: shows safety information for the area each hotel is located
+- Points of Interests API: shows POIs near the hotel
+- HERE Maps API: to create the map, markers and text bubbles
 
-In this scenario, the end user submits round-trip information via a form and the [Trip Purpose Prediction API](https://developers.amadeus.com/self-service/category/trip/api-doc/trip-purpose-prediction) is called. This API predicts if a the given journey is for leisure or business purposes.
+## How to run the project via Docker (recommended)
+
+Build the image from the Dockerfile. The following command will 
+
+```sh
+make
+```
+
+The container receives your API key/secret from the environment variables.
+Before running the container, make sure your have your credentials correctly
+set:
+
+```sh
+export AMADEUS_CLIENT_ID=YOUR_API_KEY
+export AMADEUS_CLIENT_SECRET=YOUR_API_SECRET
+```
+
+Finally, start the container from the image:
+
+```
+make run
+```
+
+At this point you can open a browser and go to `https://0.0.0.0:8000`.
+
+Note that it is also possible to run in detached mode so your terminal is still
+usable:
+
+```
+make start
+```
+
+Stop the container with:
+
+```
+make stop
+```
 
 ## How to run the project locally
 
 Clone the repository.
 
 ```sh
-git clone https://github.com/amadeus4dev/amadeus-trip-purpose-django.git
-cd amadeus-trip-purpose-django
+git clone https://github.com/amadeus4dev/amadeus-hotel-area-safety-pois-django.git
+cd amadeus-hotel-area-safety-pois-django
 ```
 
 Next create a virtual environment and install the dependencies.
