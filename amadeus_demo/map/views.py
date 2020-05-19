@@ -24,9 +24,6 @@ def search_hotels(city_code):
     return hotel_offers
 
 
-def safety(lat, lng):
-    return 0
-
 @csrf_exempt
 def search_pois(request):
     if request.is_ajax():
