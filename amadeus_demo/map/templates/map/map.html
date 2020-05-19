@@ -16,11 +16,10 @@
   </head>
   <body id="markers-on-the-map">
     <div class="page-header">
-        <h1>Click on a hotel to find more info about the area</h1>
-        <p>Click on a hotel to find more info about the area</p>
+        <h1>Find your Hotel</h1>
+        <p>Explore Points of Interest and safety information around the hotels</p>
     </div>
-    <p>This example displays a map with hotels in the markers positions.
-      Click on a hotel to see the POIs and safey information.</p>
+    <p>Click on a hotel to see the POIs and safey information</p>
     <div id="map"></div>
     <script>
       /**
@@ -30,7 +29,6 @@
  * @param {String} html             Data associated with the marker
  */
 function addMarkerToGroup(group, coordinate, html) {
-  https://image.maps.ls.hereapi.com/mia/1.6/heat?apiKey=r6QAgei7XxZDUk2LavMINXnEyHOGAcDDtYNe1TuQ-Iw&a0=49.250327,-123.182144&rad0=3k&l0=0&a1=49.250327,-123.182144&rad1=2k&l1=1&a2=49.250327,-123.182144&rad2=1500&l2=2&a3=49.250327,-123.182144&rad3=1k&l3=3&a4=49.21984,-123.150902&rad4=2k&l4=0&a5=49.21984,-123.150902&rad5=1k&l5=1&a6=49.249207,-123.127899&rad6=2k&l6=0&a7=49.249207,-123.127899&rad7=500&l7=3&z=11&h=200&op=55
   var customIcon = new H.map.Icon("{% static 'icons/hotel.svg' %}", {size: {w: 32, h: 32}});
   var marker = new H.map.Marker(coordinate, {
                     icon: customIcon
