@@ -1,22 +1,26 @@
-from django.shortcuts import render
-from amadeus import Client, ResponseError, Location
-from .hotel import Hotel
-from .point_of_interest import PointOfInterest
+import os
 import json
+from amadeus import Client, ResponseError
+from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .hotel import Hotel
+from .point_of_interest import PointOfInterest
 
 amadeus = Client()
 
 
 def hotels_map(request):
     hotels = search_hotels('BCN')
-    return render(request, 'map/map.html', {'hotels': json.dumps(hotels)})
+    HERE_API_KEY = os.environ.get('HERE_API_KEY')
+    return render(request, 'map/map.html', {'hotels': json.dumps(hotels),
+                                            'here_api_key': HERE_API_KEY
+                                            })
 
 
 def search_hotels(city_code):
-    hotels = amadeus.shopping.hotel_offers.get(latitude='41.397158', longitude='2.160873')
+    hotels = amadeus.shopping.hotel_offers.get(cityCode=city_code)
     hotel_offers = []
     for hotel in hotels.data:
         offer = Hotel(hotel).construct_hotel()

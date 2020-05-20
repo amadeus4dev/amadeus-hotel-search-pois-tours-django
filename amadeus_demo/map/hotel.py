@@ -1,5 +1,5 @@
+import os
 import requests
-import json
 
 class Hotel:
     def __init__(self, hotel):
@@ -23,18 +23,17 @@ class Hotel:
         return offer
     
     def safety(self, lat, lng):
-        access_token = ''
-        geosure_endpoint = ''
+        GEOSURE_ACCESS_TOKEN = os.environ.get('GEOSURE_ACCESS_TOKEN')
+        GEOSURE_ENDPOINT = os.environ.get('GEOSURE_ENDPOINT')
         parameters = {"latitude":lat,
                     "longitude": lng,
-                    "access_token": access_token
+                    "access_token": GEOSURE_ACCESS_TOKEN
                     }
 
-        safety = requests.get(url= geosure_endpoint,
+        safety = requests.get(url= GEOSURE_ENDPOINT,
                             params=parameters).json() 
         overall = safety['data'][0]['safetyScores']['overall']    
         lgbtq   = safety['data'][0]['safetyScores']['lgbtq']   
         theft   = safety['data'][0]['safetyScores']['theft']     
         medical = safety['data'][0]['safetyScores']['medical']                           
         return f'overall safety: {overall}\nlgbtq: {lgbtq}\ntheft: {theft}\nmedical: {medical}'
-        

@@ -1,8 +1,8 @@
 In this prototype we demonstrate the safety information and POIs for a chosen hotel on the map, using:
-- Hotel Search: shows hotels on the map
+- [Hotel Search API](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
 - Geosure API: shows safety information for the area each hotel is located
-- Points of Interests API: shows POIs near the hotel
-- HERE Maps API: to create the map, markers and text bubbles
+- [Points of Interests API](https://developers.amadeus.com/self-service/category/destination-content/api-doc/points-of-interest): shows POIs near the hotel
+- [HERE Maps API](https://developer.here.com/): displays a map with markers and text bubbles
 
 ## How to run the project via Docker (recommended)
 
@@ -17,8 +17,11 @@ Before running the container, make sure your have your credentials correctly
 set:
 
 ```sh
-export AMADEUS_CLIENT_ID=YOUR_API_KEY
-export AMADEUS_CLIENT_SECRET=YOUR_API_SECRET
+export AMADEUS_CLIENT_ID=YOUR_AMADEUS_API_KEY
+export AMADEUS_CLIENT_SECRET=YOUR_AMADEUS_API_SECRET
+export GEOSURE_ENDPOINT=YOUR_GEOSURE_ENDPOINT
+export GEOSURE_ACCESS_TOKEN="YOUR_GEOSURE_ACCESS_TOKEN"
+export HERE_API_KEY="YOUR_HERE_API_KEY"
 ```
 
 Finally, start the container from the image:
@@ -64,6 +67,9 @@ For authentication add your API key/secret to your `.bashrc` or `.zshrc` files.
 ```sh
 export AMADEUS_CLIENT_ID=YOUR_API_KEY
 export AMADEUS_CLIENT_SECRET=YOUR_API_SECRET
+export GEOSURE_ENDPOINT=YOUR_GEOSURE_ENDPOINT
+export GEOSURE_ACCESS_TOKEN="YOUR_GEOSURE_ACCESS_TOKEN"
+export HERE_API_KEY="YOUR_HERE_API_KEY"
 ```
 
 You can easily switch between `test` and `production` environments by setting:
@@ -83,7 +89,7 @@ export AMADEUS_HOSTNAME="production"
 Finally, run the Django server.
 
 ```sh
-python prediction/manage.py runserver
+python amadeus_demo//manage.py runserver
 ```
 
 Finally, open a browser and go to `https://127.0.0.1:8000`
