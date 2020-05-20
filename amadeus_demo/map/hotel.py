@@ -32,8 +32,35 @@ class Hotel:
 
         safety = requests.get(url= GEOSURE_ENDPOINT,
                             params=parameters).json() 
-        overall = safety['data'][0]['safetyScores']['overall']    
-        lgbtq   = safety['data'][0]['safetyScores']['lgbtq']   
-        theft   = safety['data'][0]['safetyScores']['theft']     
-        medical = safety['data'][0]['safetyScores']['medical']                           
-        return f'overall safety: {overall}\nlgbtq: {lgbtq}\ntheft: {theft}\nmedical: {medical}'
+        overall = self.classify_overall_safety_score(safety['data'][0]['safetyScores']['overall'])
+        lgbtq   = self.classify_safety_score(safety['data'][0]['safetyScores']['lgbtq'])
+        theft   = self.classify_safety_score(safety['data'][0]['safetyScores']['theft'])
+        medical = self.classify_safety_score(safety['data'][0]['safetyScores']['medical'])
+        return f'<b >Overall</b> {overall}' \
+               f'\n<b>LGBTQ</b>{lgbtq}' \
+               f'\n<b>Theft</b> {theft}' \
+               f'\n<b>Medical</b> {medical}'
+
+    def classify_safety_score(self, score):
+        if score <= 20:
+            return '<div style="color:green;">Very safe</div>'
+        elif 20 < score <= 40:
+            return '<div style="color:yellow;">Safe</div>'
+        elif 40 < score <= 60:
+            return '<div style="color:orange;">A bit of risk</div>'
+        elif 60 < score <= 80:
+            return '<div style="color:lightcoral;">Risk</div>'
+        elif 80 < score <= 100:
+            return '<div style="color:red;">High risk</div>'
+
+    def classify_overall_safety_score(self, score):
+        if score <= 20:
+            return '<div style="color:green;">&#128578</div>'
+        elif 20 < score <= 40:
+            return '<div style="color:yellow;">&#128578</div>'
+        elif 40 < score <= 60:
+            return '<div style="color:orange;">&#128578</div>'
+        elif 60 < score <= 80:
+            return '<div style="color:lightcoral;">&#128578</div>'
+        elif 80 < score <= 100:
+            return '<div style="color:red;">&#128578</div>'

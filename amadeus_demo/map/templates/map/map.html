@@ -69,7 +69,7 @@ var hotels = JSON.parse("{{ hotels|escapejs }}");
         hotel_address = hotels[i]['address'];
         safety = hotels[i]['safety'];
         addMarkerToGroup(group, {lat:hotel_lat, lng:hotel_lng},
-        '<div>' + hotel_name + '</div>' +'<div>' + safety + '</div>'
+        '<div style="color:blue;">' + hotel_name + '</div>' +'<div>' + safety + '</div>'
         );
       } 
 }
