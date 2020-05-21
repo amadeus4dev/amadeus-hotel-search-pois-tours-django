@@ -8,3 +8,7 @@
     width: 100%;
     height: 400px;
 }
+
+.H_ib_content {
+    min-width: 8em; !important;
+}
