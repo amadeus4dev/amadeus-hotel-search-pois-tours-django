@@ -43,7 +43,7 @@ class Hotel:
         if score <= 20:
             return '<div style="color:green;">Very safe</div>'
         elif 20 < score <= 40:
-            return '<div style="color:yellow;">Safe</div>'
+            return '<div style="color:gold;">Safe</div>'
         elif 40 < score <= 60:
             return '<div style="color:orange;">Slight risk</div>'
         elif 60 < score <= 80:
