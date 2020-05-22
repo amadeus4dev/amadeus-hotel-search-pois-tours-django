@@ -21,9 +21,9 @@
   <body id="markers-on-the-map">
     <div class="page-header">
         <h2>Find the perfect hotel for your journey!</h2>
-        <p>Explore cool attractions, restaurants and safety information around!</p>
+        <p>Explore cool attractions, restaurants and safety information!</p>
     </div>
-    <p>Click on a hotel to see the information</p>
+    <p>You are just one click away to find out!</p>
     <div id="map"></div>
     <script>
       function addMarkerToGroup(group, coordinate, html) {
@@ -57,17 +57,23 @@
           var hotels = JSON.parse("{{ hotels|escapejs }}");
           var i;
           for (i = 0; i < hotels.length; i++) {
+            try {
               hotel_name = hotels[i]['name'];
+              console.log(hotel_name);
               hotel_lat = hotels[i]['latitude'];
               hotel_lng = hotels[i]['longitude'];
+
               hotel_address = hotels[i]['address'];
               safety = hotels[i]['safety'];
               addMarkerToGroup(group, {
                       lat: hotel_lat,
                       lng: hotel_lng
                   },
-                  '<div style="color:blue;">' + hotel_name + '</div>' + '<div>' + safety + '</div>'
+                  '<div style="color:blue;">' + 'hotel_name' + '</div>' + '<div>' + safety + '</div>'
               );
+              } catch(error) {
+                  console.log(error);
+              }
           }
       }
 
@@ -158,8 +164,8 @@
       var map = new H.Map(document.getElementById('map'),
           defaultLayers.vector.normal.map, {
               center: {
-                  lat: 41.3851,
-                  lng: 2.1734
+                  lat: 37.773972,
+                  lng: -122.431297
               },
               zoom: 13,
               pixelRatio: window.devicePixelRatio || 1
