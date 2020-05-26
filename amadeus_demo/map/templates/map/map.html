@@ -59,7 +59,6 @@
           for (i = 0; i < hotels.length; i++) {
             try {
               hotel_name = hotels[i]['name'];
-              console.log(hotel_name);
               hotel_lat = hotels[i]['latitude'];
               hotel_lng = hotels[i]['longitude'];
 
@@ -94,7 +93,6 @@
                           poi_lat = pois[i]['lat'];
                           poi_lng = pois[i]['lng'];
                           poi_category = pois[i]['category'];
-                          console.log(poi_category);
                           if (poi_category == 'NIGHTLIFE') {
                               var customIcon = new H.map.Icon("{% static 'icons/nightlife.svg' %}", {
                                   size: {
