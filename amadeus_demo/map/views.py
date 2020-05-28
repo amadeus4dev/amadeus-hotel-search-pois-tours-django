@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from amadeus import Client, ResponseError
 from django.shortcuts import render
 from django.contrib import messages
@@ -7,6 +8,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .hotel import Hotel
 from .point_of_interest import PointOfInterest
+from .safety import Safety
 
 amadeus = Client()
 
@@ -44,3 +46,23 @@ def search_pois(request):
         except ResponseError as error:
             messages.add_message(request, messages.ERROR, error)
     return HttpResponse(json.dumps(points_of_interest))
+
+
+@csrf_exempt
+def search_safety(request):
+    if request.is_ajax():
+            try:
+                safety_returned = []
+                GEOSURE_ACCESS_TOKEN = os.environ.get('GEOSURE_ACCESS_TOKEN')
+                GEOSURE_ENDPOINT = os.environ.get('GEOSURE_ENDPOINT')
+                parameters = {"latitude":request.POST.get('hotel_lat'),
+                            "longitude": request.POST.get('hotel_lng'),
+                            "access_token": GEOSURE_ACCESS_TOKEN
+                            }
+
+                safety = requests.get(url= GEOSURE_ENDPOINT,
+                                        params=parameters).json()
+                safety_returned.append(Safety(safety).construct_safety_scores())
+            except ResponseError as error:
+                messages.add_message(request, messages.ERROR, error)
+    return HttpResponse(json.dumps(safety_returned))
