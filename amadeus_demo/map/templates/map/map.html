@@ -101,6 +101,7 @@
                       var i;
                       for (i = 0; i < pois.length; i++) {
                           poi_name = pois[i]['name'];
+                          poi_rank = pois[i]['rank'];
                           poi_lat = pois[i]['lat'];
                           poi_lng = pois[i]['lng'];
                           poi_category = pois[i]['category'];
@@ -146,7 +147,7 @@
                           }, {
                               icon: customIcon
                           });
-                          poiMarker.setData('<div>' + poi_name + '</div>');
+                          poiMarker.setData('<div style="color:blue;">' + poi_name + '</div>' + '<div>' + poi_rank + '</div>');
                           poiMarker.addEventListener('tap', event => {
                               var poiBubble = new H.ui.InfoBubble(event.target.getGeometry(), {
                                   content: event.target.getData()

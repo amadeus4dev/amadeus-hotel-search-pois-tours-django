@@ -1,8 +1,8 @@
-In this prototype we demonstrate the safety information and POIs for a chosen hotel on the map, using:
-- [Hotel Search API](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
-1- Safe Place API: shows safety information for the area each hotel is located
-- [Points of Interests API](https://developers.amadeus.com/self-service/category/destination-content/api-doc/points-of-interest): shows POIs near the hotel
-- [HERE Maps API](https://developer.here.com/): displays a map with markers and text bubbles
+In this prototype we demonstrate the safety information and POIs for a chosen hotel on the map, using the following APIs:
+- [Hotel Search](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
+- [Points of Interest](https://developers.amadeus.com/self-service/category/destination-content/api-doc/points-of-interest): shows POIs near the hotel
+- [Safe Place](https://developers.amadeus.com/self-service/category/destination-content/api-doc/safe-place-api): shows safety information for the area each hotel is located
+- [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
 ## How to run the project via Docker (recommended)
 
