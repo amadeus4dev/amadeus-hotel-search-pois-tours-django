@@ -43,35 +43,45 @@
 
       function addInfoBubble(map) {
           var group = new H.map.Group();
-
           map.addObject(group);
-
           group.addEventListener('tap', function(evt) {
-              var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                  content: evt.target.getData()
+              $(document).ready(function() {
+                  $.ajax({
+                      method: 'POST',
+                      url: "{% url 'search_safety'%}",
+                      data: {
+                          'hotel_lat': hotel_lat,
+                          'hotel_lng': hotel_lng
+                      },
+                      success: function(data) {
+                          var safety = JSON.parse(data);
+                          var hotel_name = evt.target.getData();
+                          var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+                              content: hotel_name + '<div>' + safety + '</div>'
+                          });
+                          ui.addBubble(bubble);
+                      },
+                      error: function(data) {
+                          console.log("Safe Place API - Error");
+                      }
+                  });
               });
-              ui.addBubble(bubble);
               addPOIMarker(map, hotel_lat, hotel_lng);
           }, false);
-
           var hotels = JSON.parse("{{ hotels|escapejs }}");
           var i;
           for (i = 0; i < hotels.length; i++) {
-            try {
-              hotel_name = hotels[i]['name'];
-              console.log(hotel_name);
-              hotel_lat = hotels[i]['latitude'];
-              hotel_lng = hotels[i]['longitude'];
-
-              hotel_address = hotels[i]['address'];
-              safety = hotels[i]['safety'];
-              addMarkerToGroup(group, {
-                      lat: hotel_lat,
-                      lng: hotel_lng
-                  },
-                  '<div style="color:blue;">' + hotel_name + '</div>' + '<div>' + safety + '</div>'
-              );
-              } catch(error) {
+              try {
+                  hotel_name = hotels[i]['name'];
+                  hotel_lat = hotels[i]['latitude'];
+                  hotel_lng = hotels[i]['longitude'];
+                  addMarkerToGroup(group, {
+                          lat: hotel_lat,
+                          lng: hotel_lng
+                      },
+                      '<div style="color:blue;">' + hotel_name + '</div>'
+                  );
+              } catch (error) {
                   console.log(error);
               }
           }
@@ -91,10 +101,10 @@
                       var i;
                       for (i = 0; i < pois.length; i++) {
                           poi_name = pois[i]['name'];
+                          poi_rank = pois[i]['rank'];
                           poi_lat = pois[i]['lat'];
                           poi_lng = pois[i]['lng'];
                           poi_category = pois[i]['category'];
-                          console.log(poi_category);
                           if (poi_category == 'NIGHTLIFE') {
                               var customIcon = new H.map.Icon("{% static 'icons/nightlife.svg' %}", {
                                   size: {
@@ -137,7 +147,7 @@
                           }, {
                               icon: customIcon
                           });
-                          poiMarker.setData('<div>' + poi_name + '</div>');
+                          poiMarker.setData('<div style="color:blue;">' + poi_name + '</div>' + '<div>' + poi_rank + '</div>');
                           poiMarker.addEventListener('tap', event => {
                               var poiBubble = new H.ui.InfoBubble(event.target.getGeometry(), {
                                   content: event.target.getData()
