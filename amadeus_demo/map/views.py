@@ -53,15 +53,9 @@ def search_safety(request):
     if request.is_ajax():
             try:
                 safety_returned = []
-                GEOSURE_ACCESS_TOKEN = os.environ.get('GEOSURE_ACCESS_TOKEN')
-                GEOSURE_ENDPOINT = os.environ.get('GEOSURE_ENDPOINT')
-                parameters = {"latitude":request.POST.get('hotel_lat'),
-                            "longitude": request.POST.get('hotel_lng'),
-                            "access_token": GEOSURE_ACCESS_TOKEN
-                            }
-
-                safety = requests.get(url= GEOSURE_ENDPOINT,
-                                        params=parameters).json()
+                safety = amadeus.safety.safety_rated_locations.get(
+                    latitude=request.POST.get('hotel_lat'),
+                    longitude=request.POST.get('hotel_lng')).data
                 safety_returned.append(Safety(safety).construct_safety_scores())
             except ResponseError as error:
                 messages.add_message(request, messages.ERROR, error)

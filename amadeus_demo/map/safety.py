@@ -4,11 +4,11 @@ class Safety:
 
     def construct_safety_scores(self):
         try:
-            overall = self.safety['data'][0]['safetyScores']['overall']
+            overall = self.safety[0]['safetyScores']['overall']
             overall_icon = self.classify_overall_safety_score(overall)
-            lgbtq = self.classify_safety_score(self.safety['data'][0]['safetyScores']['lgbtq'])
-            theft = self.classify_safety_score(self.safety['data'][0]['safetyScores']['theft'])
-            medical = self.classify_safety_score(self.safety['data'][0]['safetyScores']['medical'])
+            lgbtq = self.classify_safety_score(self.safety[0]['safetyScores']['lgbtq'])
+            theft = self.classify_safety_score(self.safety[0]['safetyScores']['theft'])
+            medical = self.classify_safety_score(self.safety[0]['safetyScores']['medical'])
         except (TypeError, AttributeError, KeyError):
             pass
         return f'<div><b>{overall}% Risk {overall_icon}</b></div>' \
