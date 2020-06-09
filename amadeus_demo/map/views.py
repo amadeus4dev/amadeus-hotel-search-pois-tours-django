@@ -53,7 +53,7 @@ def search_safety(request):
     if request.is_ajax():
             try:
                 safety_returned = []
-                safety = amadeus.safety.safety_rated_locations.get(
+                safety = amadeus.get('/v1/safety/safety-rated-locations',
                     latitude=request.POST.get('hotel_lat'),
                     longitude=request.POST.get('hotel_lng')).data
                 safety_returned.append(Safety(safety).construct_safety_scores())
