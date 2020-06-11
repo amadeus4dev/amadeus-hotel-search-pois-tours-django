@@ -4,6 +4,8 @@ In this prototype we demonstrate the safety information and POIs for a chosen ho
 - [Safe Place](https://developers.amadeus.com/self-service/category/destination-content/api-doc/safe-place-api): shows safety information for the area each hotel is located
 - [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
+You can directly view the [demo](https://amadeus4dev-hotel-pois-safety.herokuapp.com/) of the prototype. 
+
 ## How to run the project via Docker (recommended)
 
 Build the image from the Dockerfile. The following command will 
