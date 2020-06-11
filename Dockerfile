@@ -10,7 +10,7 @@ COPY . /code
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "amadeus_demo_api/manage.py"]
+ENTRYPOINT ["python", "amadeus_demo/manage.py"]
 
 CMD ["runserver", "0.0.0.0:8000"]
 

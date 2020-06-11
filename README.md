@@ -22,6 +22,7 @@ set:
 export AMADEUS_CLIENT_ID=YOUR_AMADEUS_API_KEY
 export AMADEUS_CLIENT_SECRET=YOUR_AMADEUS_API_SECRET
 export HERE_API_KEY=YOUR_HERE_API_KEY
+export DEBUG_VALUE="True"
 ```
 
 Finally, start the container from the image:
