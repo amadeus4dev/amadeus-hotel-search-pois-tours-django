@@ -187,6 +187,9 @@
                           activity_link = activities[i]['link'];
                           activity_lat = activities[i]['lat'];
                           activity_lng = activities[i]['lng'];
+                          activity_price = activities[i]['price'];
+                          activity_currency = activities[i]['currency'];
+
                           var customIcon = new H.map.Icon("{% static 'icons/activity.svg' %}", {
                                   size: {
                                       w: 32,
@@ -200,6 +203,7 @@
                               icon: customIcon
                           });
                           activityMarker.setData('<div>' + activity_name + '</div>' + '<div>' + activity_rank+ '/5 &#11088 </div>'
+                                                  + '<div>' + activity_price + '&nbsp;' + activity_currency + '</div>'
                                                   + '<div> <a href="' + activity_link + '" target="_blank">Book now!</a> </div>');
                           activityMarker.addEventListener('tap', event => {
                               var activityBubble = new H.ui.InfoBubble(event.target.getGeometry(), {
