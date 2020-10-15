@@ -15,16 +15,5 @@ class Activity:
             pass
         return activity_returned
 
-    def classify_poi_rank(self, rank):
-        if rank <= 30:
-            return f'<div>Top {rank} &#129351</div>'
-        elif 30 < rank <= 50:
-            return f'<div>Top {rank} &#129352</div>'
-        elif 50 < rank <= 100:
-            return f'<div>Top {rank} &#129353</div>'
-        else:
-            return f'<div>Top {rank}</div>'
-
     def format_rating(self, rating):
         return "{0:0.1f}".format(float(rating))
-
