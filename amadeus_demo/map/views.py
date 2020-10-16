@@ -1,6 +1,5 @@
 import os
 import json
-import requests
 from amadeus import Client, ResponseError
 from django.shortcuts import render
 from django.contrib import messages
@@ -9,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .hotel import Hotel
 from .point_of_interest import PointOfInterest
 from .safety import Safety
+from .activity import Activity
 
 amadeus = Client()
 
@@ -60,3 +60,19 @@ def search_safety(request):
             except ResponseError as error:
                 messages.add_message(request, messages.ERROR, error)
     return HttpResponse(json.dumps(safety_returned))
+
+
+@csrf_exempt
+def search_activity(request):
+    if request.is_ajax():
+        try:
+            activities = amadeus.shopping.activities.get(
+                latitude=request.POST.get('lat'),
+                longitude=request.POST.get('lng'))
+            activities_returned = []
+            for a in activities.data:
+                activity = Activity(a).construct_activity()
+                activities_returned.append(activity)
+        except ResponseError as error:
+            messages.add_message(request, messages.ERROR, error)
+    return HttpResponse(json.dumps(activities_returned))

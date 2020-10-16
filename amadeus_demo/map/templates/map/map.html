@@ -22,7 +22,8 @@
   <body id="markers-on-the-map">
     <div class="page-header">
         <h2>Find the perfect hotel for your journey!</h2>
-        <p>Explore cool attractions, restaurants and safety information!</p>
+        <p>Explore cool attractions, restaurants and safety information.</p>
+        <p>You can also book tours and activities in the city right now.</p>
     </div>
     <p>You are just one click away to find out!</p>
     <div id="map"></div>
@@ -68,6 +69,7 @@
                   });
               });
               addPOIMarker(map, hotel_lat, hotel_lng);
+              addActivityMarker(map, hotel_lat, hotel_lng);
           }, false);
           var hotels = JSON.parse("{{ hotels|escapejs }}");
           var i;
@@ -167,6 +169,61 @@
           });
 
       }
+      function addActivityMarker(map) {
+          $(document).ready(function() {
+              $.ajax({
+                  method: 'POST',
+                  url: "{% url 'search_activity'%}",
+                  data: {
+                      'lat': hotel_lat,
+                      'lng': hotel_lng
+                  },
+                  success: function(data) {
+                      var activities = JSON.parse(data);
+                      var i;
+                      for (i = 0; i < activities.length; i++) {
+                          activity_name = activities[i]['name'];
+                          activity_rank = activities[i]['rating'];
+                          activity_link = activities[i]['link'];
+                          activity_lat = activities[i]['lat'];
+                          activity_lng = activities[i]['lng'];
+                          activity_price = activities[i]['price'];
+                          activity_currency = activities[i]['currency'];
+
+                          var customIcon = new H.map.Icon("{% static 'icons/activity.svg' %}", {
+                                  size: {
+                                      w: 32,
+                                      h: 32
+                                  }
+                              });
+                          var activityMarker = new H.map.Marker({
+                              lat: activity_lat,
+                              lng: activity_lng
+                          }, {
+                              icon: customIcon
+                          });
+                          activityMarker.setData('<div>' + activity_name + '</div>' + '<div>' + activity_rank+ '/5 &#11088 </div>'
+                                                  + '<div>' + activity_price + '&nbsp;' + activity_currency + '</div>'
+                                                  + '<div> <a href="' + activity_link + '" target="_blank">Book now!</a> </div>');
+                          activityMarker.addEventListener('tap', event => {
+                              var activityBubble = new H.ui.InfoBubble(event.target.getGeometry(), {
+                                  content: event.target.getData()
+                              });
+                              ui.addBubble(activityBubble)
+
+                          }, false);
+                          map.addObject(activityMarker);
+
+                      }
+                  },
+                  error: function(data) {
+                      console.log("Tours and Activities - Error");
+                  }
+              });
+          });
+
+      }
+
       var platform = new H.service.Platform({
           'apikey': '{{here_api_key}}'
       });
