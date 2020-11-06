@@ -1,7 +1,7 @@
 In this prototype we demonstrate the safety information, POIs and tours for a chosen hotel on the map, using the following APIs:
 - [Hotel Search](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
 - [Points of Interest](https://developers.amadeus.com/self-service/category/destination-content/api-doc/points-of-interest): shows POIs around the hotel
-- [Safe Place](https://developers.amadeus.com/self-service/category/destination-content/api-doc/safe-place-api): shows safety information for the area each hotel is located
+- [Safe Place](https://developers.amadeus.com/self-service/category/destination-content/api-doc/safe-place): shows safety information for the area each hotel is located
 - [Tours and Activities](https://developers.amadeus.com/self-service/category/destination-content/api-doc/tours-and-activities/api-reference): shows bookable tours and activities around the hotel
 - [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
