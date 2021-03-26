@@ -7,7 +7,7 @@ chardet==3.0.4
 click==7.1.2
 clint==0.5.1
 coverage==4.5.4
-Django==2.2.13
+Django==2.2.18
 docutils==0.15.2
 doublex==1.8.4
 doublex-expects==0.7.0rc2
