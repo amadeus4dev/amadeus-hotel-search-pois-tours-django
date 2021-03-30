@@ -37,8 +37,9 @@ def search_pois(request):
     if request.is_ajax():
         try:
             pois = amadeus.reference_data.locations.points_of_interest.get(
-                latitude=request.POST.get('lat'), 
-                longitude=request.POST.get('lng'))
+                latitude=request.POST.get('lat'),
+                longitude=request.POST.get('lng'),
+                radius=2)
             points_of_interest = []
             for p in pois.data:
                 poi = PointOfInterest(p).construct_poi()
@@ -51,14 +52,15 @@ def search_pois(request):
 @csrf_exempt
 def search_safety(request):
     if request.is_ajax():
-            try:
-                safety_returned = []
-                safety = amadeus.get('/v1/safety/safety-rated-locations',
-                    latitude=request.POST.get('hotel_lat'),
-                    longitude=request.POST.get('hotel_lng')).data
-                safety_returned.append(Safety(safety).construct_safety_scores())
-            except ResponseError as error:
-                messages.add_message(request, messages.ERROR, error)
+        try:
+            safety_returned = []
+            safety = amadeus.get('/v1/safety/safety-rated-locations',
+                                 latitude=request.POST.get('hotel_lat'),
+                                 longitude=request.POST.get('hotel_lng'),
+                                 radius=2).data
+            safety_returned.append(Safety(safety).construct_safety_scores())
+        except ResponseError as error:
+            messages.add_message(request, messages.ERROR, error)
     return HttpResponse(json.dumps(safety_returned))
 
 
@@ -68,7 +70,8 @@ def search_activity(request):
         try:
             activities = amadeus.shopping.activities.get(
                 latitude=request.POST.get('lat'),
-                longitude=request.POST.get('lng'))
+                longitude=request.POST.get('lng'),
+                radius=2)
             activities_returned = []
             for a in activities.data:
                 activity = Activity(a).construct_activity()

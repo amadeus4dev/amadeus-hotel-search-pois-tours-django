@@ -18,4 +18,7 @@ class Activity:
         return activity_returned
 
     def format_rating(self, rating):
-        return "{0:0.1f}".format(float(rating))
+        if rating:
+            return "{0:0.1f}".format(float(rating)) + '/5 &#11088'
+        else:
+            return "No ratings"
