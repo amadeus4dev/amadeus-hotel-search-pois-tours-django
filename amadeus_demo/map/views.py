@@ -68,7 +68,8 @@ def search_activity(request):
         try:
             activities = amadeus.shopping.activities.get(
                 latitude=request.POST.get('lat'),
-                longitude=request.POST.get('lng'))
+                longitude=request.POST.get('lng'),
+                radius=2)
             activities_returned = []
             for a in activities.data:
                 activity = Activity(a).construct_activity()
