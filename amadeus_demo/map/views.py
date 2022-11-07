@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .hotel import Hotel
+# from .hotel import Hotel
+from .hotel_list import Hotel_list
 from .point_of_interest import PointOfInterest
 from .safety import Safety
 from .activity import Activity
@@ -22,18 +23,18 @@ def hotels_map(request):
 
 
 def search_hotels(city_code):
-    hotels = amadeus.shopping.hotel_offers.get(cityCode=city_code,
-                                               includeClosed='true')
+    hotels = amadeus.reference_data.locations.hotels.by_city.get(cityCode=city_code)
     hotel_offers = []
     for hotel in hotels.data:
-        print(hotel)
-        offer = Hotel(hotel).construct_hotel()
+        print(hotel_offers)
+        offer = Hotel_list(hotel).construct_hotel_list()
         hotel_offers.append(offer)
     return hotel_offers
 
 
 @csrf_exempt
 def search_pois(request):
+    points_of_interest = []
     if request.is_ajax():
         try:
             pois = amadeus.reference_data.locations.points_of_interest.get(
