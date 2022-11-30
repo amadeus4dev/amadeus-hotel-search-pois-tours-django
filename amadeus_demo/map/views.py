@@ -52,9 +52,9 @@ def search_pois(request):
 
 @csrf_exempt
 def search_safety(request):
+    safety_returned = []
     if request.is_ajax():
         try:
-            safety_returned = []
             safety = amadeus.get('/v1/safety/safety-rated-locations',
                                  latitude=request.POST.get('hotel_lat'),
                                  longitude=request.POST.get('hotel_lng'),
