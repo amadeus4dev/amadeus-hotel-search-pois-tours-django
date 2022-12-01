@@ -4,11 +4,11 @@ class Hotel_list:
 
     def construct_hotel_list(self):
         try:
-            offer = {}
-            offer['name'] = self.hotel_list['name']
-            offer['latitude'] = self.hotel_list['geoCode']['latitude']
-            offer['longitude'] = self.hotel_list['geoCode']['longitude']
-            offer['address'] = self.hotel_list['address']
+            list_offer = {}
+            list_offer['name'] = self.hotel_list['name']
+            list_offer['latitude'] = self.hotel_list['geoCode']['latitude']
+            list_offer['longitude'] = self.hotel_list['geoCode']['longitude']
+            # offer['address'] = self.hotel_list['address']
         except (TypeError, AttributeError, KeyError):
             pass
-        return offer
+        return list_offer
