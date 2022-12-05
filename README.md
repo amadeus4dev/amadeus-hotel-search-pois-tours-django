@@ -1,3 +1,6 @@
+
+***This prototype has been update with Hotel Search V3. [Link to API reference page](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search), [Link to Hotel Search V3 Migration guide](https://amadeus4dev.github.io/developer-guides/migration-guides/hotel-search/) ***
+
 In this prototype we demonstrate the safety information, POIs and tours for a chosen hotel on the map, using the following APIs:
 - [Hotel Search](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
 - [Points of Interest](https://developers.amadeus.com/self-service/category/destination-content/api-doc/points-of-interest): shows POIs around the hotel
