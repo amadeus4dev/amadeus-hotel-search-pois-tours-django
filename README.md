@@ -5,7 +5,7 @@ In this prototype we demonstrate the safety information, POIs and tours for a ch
 - [Tours and Activities](https://developers.amadeus.com/self-service/category/destination-content/api-doc/tours-and-activities/api-reference): shows bookable tours and activities around the hotel
 - [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
-You can directly view the [demo](https://amadeus4dev-hotel-pois-safety.herokuapp.com/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well. 
+You can directly view the [demo](https://web-production-4468.up.railway.app/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well. 
 
 ## How to run the project via Docker (recommended)
 
