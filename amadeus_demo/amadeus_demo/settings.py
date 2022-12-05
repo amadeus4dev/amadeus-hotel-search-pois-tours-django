@@ -34,7 +34,7 @@ SECRET_KEY = ')-oaaz2gxfl6h7g$y6j5bw0519(a8^ue_^m=t5vnj)lbnp=cg&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG_VALUE', True)
 
-ALLOWED_HOSTS = ['https://web-production-4468.up.railway.app', '0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = ['web-production-4468.up.railway.app', '0.0.0.0', '127.0.0.1']
 
 
 # Application definition
