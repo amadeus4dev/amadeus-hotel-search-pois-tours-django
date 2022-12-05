@@ -59,7 +59,7 @@
                           var safety = JSON.parse(data);
                           var hotel_name = evt.target.getData();
                           var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                              content: hotel_name + '<div>' + safety + '</div>' + hotel_lat
+                              content: hotel_name + '<div>' + safety + '</div>' + hotel_lat + ' ' +hotel_lng
                           });
                           ui.addBubble(bubble);
                       },
