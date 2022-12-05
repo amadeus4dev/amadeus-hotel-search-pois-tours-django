@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .hotel import Hotel
+# from .hotel import Hotel
+from .hotel_list import Hotel_list
 from .point_of_interest import PointOfInterest
 from .safety import Safety
 from .activity import Activity
@@ -22,18 +23,19 @@ def hotels_map(request):
 
 
 def search_hotels(city_code):
-    hotels = amadeus.shopping.hotel_offers.get(cityCode=city_code,
-                                               includeClosed='true')
+    hotels = amadeus.reference_data.locations.hotels.by_city.get(cityCode=city_code)
     hotel_offers = []
     for hotel in hotels.data:
-        print(hotel)
-        offer = Hotel(hotel).construct_hotel()
-        hotel_offers.append(offer)
+        # print(hotel)
+        list_offer = Hotel_list(hotel).construct_hotel_list()
+        hotel_offers.append(list_offer)
+    print(hotel_offers)
     return hotel_offers
 
 
 @csrf_exempt
 def search_pois(request):
+    points_of_interest = []
     if request.is_ajax():
         try:
             pois = amadeus.reference_data.locations.points_of_interest.get(
@@ -51,14 +53,21 @@ def search_pois(request):
 
 @csrf_exempt
 def search_safety(request):
+    safety_returned = []
     if request.is_ajax():
         try:
-            safety_returned = []
-            safety = amadeus.get('/v1/safety/safety-rated-locations',
-                                 latitude=request.POST.get('hotel_lat'),
-                                 longitude=request.POST.get('hotel_lng'),
-                                 radius=2).data
+            safety = amadeus.safety.safety_rated_locations.get(latitude=request.POST.get('hotel_lat'), 
+                                                               longitude=request.POST.get('hotel_lng'), 
+                                                               radius=2).data
+            # safety = amadeus.get('/v1/safety/safety-rated-locations',
+            #                      latitude=request.POST.get('hotel_lat'),
+            #                      longitude=request.POST.get('hotel_lng'),
+            #                      radius=2).data
+            print(request.POST.get('hotel_lat'))
+            print(request.POST.get('hotel_lng'))
+            print(safety)
             safety_returned.append(Safety(safety).construct_safety_scores())
+            print (safety_returned)
         except ResponseError as error:
             messages.add_message(request, messages.ERROR, error)
     return HttpResponse(json.dumps(safety_returned))

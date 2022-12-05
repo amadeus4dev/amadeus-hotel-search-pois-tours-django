@@ -24,8 +24,8 @@
         <h2>Find the perfect hotel for your journey!</h2>
         <p>Explore cool attractions, restaurants and safety information.</p>
         <p>You can also book tours and activities in the city right now.</p>
+        <p>You are just one click away to find out!</p>
     </div>
-    <p>You are just one click away to find out!</p>
     <div id="map"></div>
     <script>
       function addMarkerToGroup(group, coordinate, html) {
@@ -59,7 +59,7 @@
                           var safety = JSON.parse(data);
                           var hotel_name = evt.target.getData();
                           var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                              content: hotel_name + '<div>' + safety + '</div>'
+                              content: hotel_name + '<div>' + safety + '</div>' + hotel_lat + ' ' +hotel_lng
                           });
                           ui.addBubble(bubble);
                       },
@@ -82,7 +82,7 @@
                           lat: hotel_lat,
                           lng: hotel_lng
                       },
-                      '<div style="color:blue;">' + hotel_name + '</div>'
+                      '<div style="color:blue;">' + hotel_name + '</div>' + hotel_lat +' '+ hotel_lng
                   );
               } catch (error) {
                   console.log(error);

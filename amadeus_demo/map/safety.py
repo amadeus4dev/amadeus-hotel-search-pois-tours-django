@@ -3,6 +3,11 @@ class Safety:
         self.safety = safety
 
     def construct_safety_scores(self):
+        overall = 1
+        overall_icon = 1
+        lgbtq = 1
+        theft = 1
+        medical = 1
         try:
             overall = self.safety[0]['safetyScores']['overall']
             overall_icon = self.classify_overall_safety_score(overall)
@@ -15,6 +20,8 @@ class Safety:
                                        f'\n<b>LGBTQ</b>{lgbtq}' \
                                        f'\n<b>Theft</b> {theft}' \
                                        f'\n<b>Medical</b> {medical}'
+
+
 
     def classify_safety_score(self, score):
         if score <= 20:
