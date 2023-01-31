@@ -5,8 +5,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-# from .hotel import Hotel
-from .hotel_list import Hotel_list
+from .hotel_list import HotelList
 from .point_of_interest import PointOfInterest
 from .safety import Safety
 from .activity import Activity
@@ -26,10 +25,8 @@ def search_hotels(city_code):
     hotels = amadeus.reference_data.locations.hotels.by_city.get(cityCode=city_code)
     hotel_offers = []
     for hotel in hotels.data:
-        # print(hotel)
-        list_offer = Hotel_list(hotel).construct_hotel_list()
+        list_offer = HotelList(hotel).construct_hotel_list()
         hotel_offers.append(list_offer)
-    print(hotel_offers)
     return hotel_offers
 
 
@@ -59,15 +56,7 @@ def search_safety(request):
             safety = amadeus.safety.safety_rated_locations.get(latitude=request.POST.get('hotel_lat'), 
                                                                longitude=request.POST.get('hotel_lng'), 
                                                                radius=2).data
-            # safety = amadeus.get('/v1/safety/safety-rated-locations',
-            #                      latitude=request.POST.get('hotel_lat'),
-            #                      longitude=request.POST.get('hotel_lng'),
-            #                      radius=2).data
-            print(request.POST.get('hotel_lat'))
-            print(request.POST.get('hotel_lng'))
-            print(safety)
             safety_returned.append(Safety(safety).construct_safety_scores())
-            print (safety_returned)
         except ResponseError as error:
             messages.add_message(request, messages.ERROR, error)
     return HttpResponse(json.dumps(safety_returned))
