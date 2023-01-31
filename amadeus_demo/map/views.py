@@ -17,7 +17,7 @@ def hotels_map(request):
     hotels = search_hotels('SFO')
     HERE_API_KEY = os.environ.get('HERE_API_KEY')
     return render(request, 'map/map.html', {'hotels': json.dumps(hotels),
-                                            'here_api_key': 'HERE_API_KEY'
+                                            'here_api_key': HERE_API_KEY
                                             })
 
 
