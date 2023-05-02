@@ -44,9 +44,14 @@
       }
 
       function addInfoBubble(map) {
+          // Create a new marker group
           var group = new H.map.Group();
+          // Add the marker group to the map
           map.addObject(group);
+
+          // Add a 'tap' event listener to the marker group
           group.addEventListener('tap', function(evt) {
+              // Use jQuery to make an AJAX request to a server-side Django view
               $(document).ready(function() {
                   $.ajax({
                       method: 'POST',
@@ -56,11 +61,15 @@
                           'hotel_lng': hotel_lng
                       },
                       success: function(data) {
+                          // Parse the JSON data returned from the server
                           var safety = JSON.parse(data);
+                          // Get the hotel name from the marker object's data property
                           var hotel_name = evt.target.getData();
+                          // Create a new info bubble at the marker's location, with the hotel name and safety score as content
                           var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
                               content: hotel_name + '<div>' + safety + '</div>'
                           });
+                          // Add the info bubble to the map's user interface
                           ui.addBubble(bubble);
                       },
                       error: function(data) {
@@ -68,12 +77,16 @@
                       }
                   });
               });
+              // Add POI and activity markers
               addPOIMarker(map, hotel_lat, hotel_lng);
               addActivityMarker(map, hotel_lat, hotel_lng);
           }, false);
+
+          // Parse the JSON data containing information about hotels
           var hotels = JSON.parse("{{ hotels|escapejs }}");
           var i;
           for (i = 0; i < hotels.length; i++) {
+              // Create marker objects for each hotel and add them to the marker group
               try {
                   hotel_name = hotels[i]['name'];
                   hotel_lat = hotels[i]['latitude'];
