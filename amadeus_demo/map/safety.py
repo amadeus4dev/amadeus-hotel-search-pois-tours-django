@@ -3,11 +3,6 @@ class Safety:
         self.safety = safety
 
     def construct_safety_scores(self):
-        overall = 1
-        overall_icon = 1
-        lgbtq = 1
-        theft = 1
-        medical = 1
         try:
             overall = self.safety[0]['safetyScores']['overall']
             overall_icon = self.classify_overall_safety_score(overall)

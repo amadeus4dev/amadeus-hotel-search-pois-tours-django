@@ -51,14 +51,18 @@
 
           // Add a 'tap' event listener to the marker group
           group.addEventListener('tap', function(evt) {
+
+            var clickedCoord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+            var clickedCoordLat = clickedCoord.lat;
+            var clickedCoordLng = clickedCoord.lng
               // Use jQuery to make an AJAX request to a server-side Django view
               $(document).ready(function() {
                   $.ajax({
                       method: 'POST',
                       url: "{% url 'search_safety'%}",
                       data: {
-                          'hotel_lat': hotel_lat,
-                          'hotel_lng': hotel_lng
+                          'hotel_lat': clickedCoordLat.toString(),
+                          'hotel_lng': clickedCoordLng.toString()
                       },
                       success: function(data) {
                           // Parse the JSON data returned from the server
@@ -78,8 +82,8 @@
                   });
               });
               // Add POI and activity markers
-              addPOIMarker(map, hotel_lat, hotel_lng);
-              addActivityMarker(map, hotel_lat, hotel_lng);
+              addPOIMarker(map, clickedCoordLat, clickedCoordLng);
+              addActivityMarker(map, clickedCoordLat, clickedCoordLng);
           }, false);
 
           // Parse the JSON data containing information about hotels
@@ -104,14 +108,14 @@
           }
       }
 
-      function addPOIMarker(map) {
+      function addPOIMarker(map, clickedCoordLat, clickedCoordLng) {
           $(document).ready(function() {
               $.ajax({
                   method: 'POST',
                   url: "{% url 'search_pois'%}",
                   data: {
-                      'lat': hotel_lat,
-                      'lng': hotel_lng
+                      'lat': clickedCoordLat.toString(),
+                      'lng': clickedCoordLng.toString()
                   },
                   success: function(data) {
                       var pois = JSON.parse(data);
@@ -122,7 +126,7 @@
                           poi_lat = pois[i]['lat'];
                           poi_lng = pois[i]['lng'];
                           poi_category = pois[i]['category'];
-                          if (poi_category == 'NIGHTLIFE') {
+                          if (poi_category == 'NIGHTLIFE') { 
                               var customIcon = new H.map.Icon("{% static 'icons/nightlife.svg' %}", {
                                   size: {
                                       w: 32,
@@ -183,14 +187,14 @@
           });
 
       }
-      function addActivityMarker(map) {
+      function addActivityMarker(map, clickedCoordLat, clickedCoordLng) {
           $(document).ready(function() {
               $.ajax({
                   method: 'POST',
                   url: "{% url 'search_activity'%}",
                   data: {
-                      'lat': hotel_lat,
-                      'lng': hotel_lng
+                      'lat': clickedCoordLat.toString(),
+                      'lng': clickedCoordLng.toString()
                   },
                   success: function(data) {
                       var activities = JSON.parse(data);
@@ -246,8 +250,8 @@
       var map = new H.Map(document.getElementById('map'),
           defaultLayers.vector.normal.map, {
               center: {
-                  lat: 37.773972,
-                  lng: -122.431297
+                  lat: 41.397158,
+                  lng: 2.160873
               },
               zoom: 13,
               pixelRatio: window.devicePixelRatio || 1

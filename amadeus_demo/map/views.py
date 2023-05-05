@@ -12,9 +12,8 @@ from .activity import Activity
 
 amadeus = Client()
 
-
 def hotels_map(request):
-    hotels = search_hotels('SFO')
+    hotels = search_hotels('BCN')
     HERE_API_KEY = os.environ.get('HERE_API_KEY')
     return render(request, 'map/map.html', {'hotels': json.dumps(hotels),
                                             'here_api_key': HERE_API_KEY
@@ -24,7 +23,7 @@ def hotels_map(request):
 def search_hotels(city_code):
     hotels = amadeus.reference_data.locations.hotels.by_city.get(cityCode=city_code)
     hotel_offers = []
-    for hotel in hotels.data:
+    for hotel in hotels.data[:15]:
         list_offer = HotelList(hotel).construct_hotel_list()
         hotel_offers.append(list_offer)
     return hotel_offers
