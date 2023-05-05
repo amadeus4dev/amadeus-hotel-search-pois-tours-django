@@ -11,8 +11,6 @@ class Activity:
             activity_returned['link'] = self.activity['bookingLink']
             activity_returned['lat'] = self.activity['geoCode']['latitude']
             activity_returned['lng'] = self.activity['geoCode']['longitude']
-            activity_returned['price'] = self.activity['price']['amount']
-            activity_returned['currency'] = self.activity['price']['currencyCode']
         except (TypeError, AttributeError, KeyError):
             pass
         return activity_returned
