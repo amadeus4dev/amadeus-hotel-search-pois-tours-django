@@ -1,4 +1,4 @@
-# Map with Hotels, Point of Interests and Safety Score
+# Map with Hotels, Points of Interest and Safety Score
 
 ***This prototype has been update with Hotel Search V3. [Link to API reference page](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search), [Link to Hotel Search V3 Migration guide](https://amadeus4dev.github.io/developer-guides/migration-guides/hotel-search/) ***
 
