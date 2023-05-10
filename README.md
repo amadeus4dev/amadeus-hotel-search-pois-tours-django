@@ -1,5 +1,8 @@
+# Map with Hotels, Point of Interests and Safety Score
 
 ***This prototype has been update with Hotel Search V3. [Link to API reference page](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search), [Link to Hotel Search V3 Migration guide](https://amadeus4dev.github.io/developer-guides/migration-guides/hotel-search/) ***
+
+![](screenshots/pois.gif)
 
 In this prototype we demonstrate the safety information, POIs and tours for a chosen hotel on the map, using the following APIs:
 - [Hotel Search](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
@@ -8,7 +11,7 @@ In this prototype we demonstrate the safety information, POIs and tours for a ch
 - [Tours and Activities](https://developers.amadeus.com/self-service/category/destination-content/api-doc/tours-and-activities/api-reference): shows bookable tours and activities around the hotel
 - [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
-You can directly view the [demo](https://web-production-4468.up.railway.app/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well. 
+You can directly view the [demo](https://hotel-safety-pois.azurewebsites.net/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well. 
 
 ## How to run the project via Docker (recommended)
 
