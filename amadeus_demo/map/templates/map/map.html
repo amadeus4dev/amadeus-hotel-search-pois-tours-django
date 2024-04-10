@@ -21,10 +21,10 @@
   </head>
   <body id="markers-on-the-map">
     <div class="page-header">
-        <h2>Find the perfect hotel for your journey!</h2>
-        <p>Explore cool attractions, restaurants and safety information.</p>
-        <p>You can also book tours and activities in the city right now.</p>
-        <p>You are just one click away to find out!</p>
+        <h2>Discover your ideal hotel for your trip!</h2>
+        <p>Explore nearby attractions, restaurants, and nightlife.</p>
+        <p>Plus, easily book city tours and activities.</p>
+        <p>You are just one click away to start exploring.</p>
     </div>
     <div id="map"></div>
     <script>
@@ -55,32 +55,7 @@
             var clickedCoord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
             var clickedCoordLat = clickedCoord.lat;
             var clickedCoordLng = clickedCoord.lng
-              // Use jQuery to make an AJAX request to a server-side Django view
-              $(document).ready(function() {
-                  $.ajax({
-                      method: 'POST',
-                      url: "{% url 'search_safety'%}",
-                      data: {
-                          'hotel_lat': clickedCoordLat.toString(),
-                          'hotel_lng': clickedCoordLng.toString()
-                      },
-                      success: function(data) {
-                          // Parse the JSON data returned from the server
-                          var safety = JSON.parse(data);
-                          // Get the hotel name from the marker object's data property
-                          var hotel_name = evt.target.getData();
-                          // Create a new info bubble at the marker's location, with the hotel name and safety score as content
-                          var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                              content: hotel_name + '<div>' + safety + '</div>'
-                          });
-                          // Add the info bubble to the map's user interface
-                          ui.addBubble(bubble);
-                      },
-                      error: function(data) {
-                          console.log("Safe Place API - Error");
-                      }
-                  });
-              });
+            
               // Add POI and activity markers
               addPOIMarker(map, clickedCoordLat, clickedCoordLng);
               addActivityMarker(map, clickedCoordLat, clickedCoordLng);

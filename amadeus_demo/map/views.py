@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .hotel_list import HotelList
 from .point_of_interest import PointOfInterest
-from .safety import Safety
 from .activity import Activity
 
 amadeus = Client()
@@ -45,20 +44,6 @@ def search_pois(request):
         except ResponseError as error:
             messages.add_message(request, messages.ERROR, error)
     return HttpResponse(json.dumps(points_of_interest))
-
-
-@csrf_exempt
-def search_safety(request):
-    safety_returned = []
-    if request.is_ajax():
-        try:
-            safety = amadeus.safety.safety_rated_locations.get(latitude=request.POST.get('hotel_lat'), 
-                                                               longitude=request.POST.get('hotel_lng'), 
-                                                               radius=2).data
-            safety_returned.append(Safety(safety).construct_safety_scores())
-        except ResponseError as error:
-            messages.add_message(request, messages.ERROR, error)
-    return HttpResponse(json.dumps(safety_returned))
 
 
 @csrf_exempt
