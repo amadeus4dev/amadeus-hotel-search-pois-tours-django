@@ -1,6 +1,6 @@
 # Map with Hotels, Points of Interests and Tours & Activities
 
-![](screenshots/pois.gif)
+![](amadeus_demo/map/static/images/hotel_search.gif)
 
 In this prototype we demonstrate POIs and tours for a chosen hotel on the map, using the following APIs:
 - [Hotel Search](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
