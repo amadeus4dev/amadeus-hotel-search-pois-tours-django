@@ -5,7 +5,7 @@
     <link rel="icon" href="data:,">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-    <title>Amadeus Hotels</title>
+    <title>Amadeus Hotel Search</title>
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
     <link rel="stylesheet" type="text/css" href="{% static 'map/style.css' %}">
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
@@ -21,10 +21,10 @@
   </head>
   <body id="markers-on-the-map">
     <div class="page-header">
-        <h2>Discover your ideal hotel for your trip!</h2>
-        <p>Explore nearby attractions, restaurants, and nightlife.</p>
-        <p>Plus, easily book city tours and activities.</p>
-        <p>You are just one click away to start exploring.</p>
+        <h2>Find the perfect hotel for your journey!</h2>
+        <p>Explore cool attractions, restaurants and safety information.</p>
+        <p>You can also book tours and activities in the city right now.</p>
+        <p>You are just one click away to find out!</p>
     </div>
     <div id="map"></div>
     <script>
@@ -44,45 +44,51 @@
       }
 
       function addInfoBubble(map) {
-          // Create a new marker group
-          var group = new H.map.Group();
-          // Add the marker group to the map
-          map.addObject(group);
+    // Create a new marker group
+    var group = new H.map.Group();
+    // Add the marker group to the map
+    map.addObject(group);
 
-          // Add a 'tap' event listener to the marker group
-          group.addEventListener('tap', function(evt) {
+    // Add a 'tap' event listener to the marker group
+    group.addEventListener('tap', function(evt) {
+        var clickedCoord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+        var clickedCoordLat = clickedCoord.lat;
+        var clickedCoordLng = clickedCoord.lng;
 
-            var clickedCoord = map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
-            var clickedCoordLat = clickedCoord.lat;
-            var clickedCoordLng = clickedCoord.lng
-            
-              // Add POI and activity markers
-              addPOIMarker(map, clickedCoordLat, clickedCoordLng);
-              addActivityMarker(map, clickedCoordLat, clickedCoordLng);
-          }, false);
+        // Add POI and activity markers
+        addPOIMarker(map, clickedCoordLat, clickedCoordLng);
+        addActivityMarker(map, clickedCoordLat, clickedCoordLng);
 
-          // Parse the JSON data containing information about hotels
-          var hotels = JSON.parse("{{ hotels|escapejs }}");
-          var i;
-          for (i = 0; i < hotels.length; i++) {
-              // Create marker objects for each hotel and add them to the marker group
-              try {
-                  hotel_name = hotels[i]['name'];
-                  hotel_lat = hotels[i]['latitude'];
-                  hotel_lng = hotels[i]['longitude'];
-                  hotel_address = hotels[i]['address']
-                  addMarkerToGroup(group, {
-                          lat: hotel_lat,
-                          lng: hotel_lng
-                      },
-                      '<div style="color:blue;">' + hotel_name + '</div>' + hotel_address
-                  );
-              } catch (error) {
-                  console.log(error);
-              }
-          }
-      }
+        // Get the hotel name from the marker object's data property
+        var hotel_name = evt.target.getData();
+        // Create a new info bubble at the marker's location, with the hotel name and safety score as content
+        var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+            content: hotel_name
+        });
+        // Add the info bubble to the map's user interface
+        ui.addBubble(bubble);
+    }, false);
 
+    // Parse the JSON data containing information about hotels
+    var hotels = JSON.parse("{{ hotels|escapejs }}");
+    var i;
+    for (i = 0; i < hotels.length; i++) {
+        // Create marker objects for each hotel and add them to the marker group
+        try {
+            var hotel_name = hotels[i]['name'];
+            var hotel_lat = hotels[i]['latitude'];
+            var hotel_lng = hotels[i]['longitude'];
+            var hotel_address = hotels[i]['address'];
+            addMarkerToGroup(group, {
+                lat: hotel_lat,
+                lng: hotel_lng
+            },
+            '<div style="color:blue;">' + hotel_name + '</div>' + hotel_address);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
       function addPOIMarker(map, clickedCoordLat, clickedCoordLng) {
           $(document).ready(function() {
               $.ajax({
