@@ -1,19 +1,18 @@
-# Map with Hotels, Points of Interests, Tours & Activities and Safety Scores
+# Map with Hotels, Points of Interests and Tours & Activities
 
-![](screenshots/pois.gif)
+![](amadeus_demo/map/static/images/hotel_search.gif)
 
-In this prototype we demonstrate the safety information, POIs and tours for a chosen hotel on the map, using the following APIs:
+In this prototype we demonstrate POIs and tours for a chosen hotel on the map, using the following APIs:
 - [Hotel Search](https://developers.amadeus.com/self-service/category/hotel/api-doc/hotel-search): shows hotels on the map
 - [Points of Interest](https://developers.amadeus.com/self-service/category/destination-content/api-doc/points-of-interest): shows POIs around the hotel
-- [Safe Place](https://developers.amadeus.com/self-service/category/destination-content/api-doc/safe-place): shows safety information for the area each hotel is located
 - [Tours and Activities](https://developers.amadeus.com/self-service/category/destination-content/api-doc/tours-and-activities/api-reference): shows bookable tours and activities around the hotel
 - [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
-You can directly view the [demo](https://hotel-safety-pois.azurewebsites.net/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well. 
+You can directly view the [demo](https://hotel-safety-pois.azurewebsites.net/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well.
 
 ## How to run the project via Docker (recommended)
 
-Build the image from the Dockerfile. The following command will 
+Build the image from the Dockerfile. The following command will
 
 ```sh
 make
@@ -55,14 +54,14 @@ make stop
 Clone the repository.
 
 ```sh
-git clone https://github.com/amadeus4dev/amadeus-hotel-area-safety-pois-django.git
-cd amadeus-hotel-area-safety-pois-django
+git clone https://github.com/amadeus4dev/amadeus-hotel-search-pois-tours-django.git
+cd amadeus-hotel-search-pois-tours
 ```
 
 Next create a virtual environment and install the dependencies.
 
 ```sh
-virtualenv venv
+python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -92,7 +91,7 @@ export AMADEUS_HOSTNAME="production"
 Finally, run the Django server.
 
 ```sh
-python amadeus_demo//manage.py runserver
+python amadeus_demo/manage.py runserver
 ```
 
 Finally, open a browser and go to `https://127.0.0.1:8000`
