@@ -8,8 +8,6 @@ In this prototype we demonstrate POIs and tours for a chosen hotel on the map, u
 - [Tours and Activities](https://developers.amadeus.com/self-service/category/destination-content/api-doc/tours-and-activities/api-reference): shows bookable tours and activities around the hotel
 - [HERE Maps](https://developer.here.com/): displays a map with markers and text bubbles
 
-You can directly view the [demo](https://hotel-search-map.azurewebsites.net/) of the prototype and refer to the [blog article](https://developers.amadeus.com/blog/hotel-search-project-python) well.
-
 ## How to run the project via Docker (recommended)
 
 Build the image from the Dockerfile. The following command will
