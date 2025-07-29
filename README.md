@@ -49,7 +49,7 @@ make stop
 Clone the repository.
 
 ```sh
-git clone https://github.com/amadeus4dev/amadeus-hotel-search-pois-tours-django.git
+git clone https://github.com/amadeus4dev/amadeus-hotel-search-tours-django.git
 cd amadeus-hotel-search-pois-tours
 ```
 
